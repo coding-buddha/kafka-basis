@@ -57,10 +57,19 @@ subprojects {
     }
 }
 
+project(':kafka-common'){
+    dependencies {
+    }
+}
+
 project(':kafka-consumer') {
-    dependencies {}
+    dependencies {
+        compile project(':kafka-common')
+    }
 }
 
 project(':kafka-producer') {
-    dependencies {}
+    dependencies {
+        compile project(':kafka-common')
+    }
 }
