@@ -1,9 +1,9 @@
 package edu.pasudo123.study.producer.service;
 
+import edu.pasudo123.study.common.container.Container;
 import edu.pasudo123.study.producer.config.CustomKafkaProperties;
 import edu.pasudo123.study.producer.pojo.AtomicNumber;
 import edu.pasudo123.study.producer.pojo.NameGenerator;
-import edu.pasudo123.study.common.container.Container;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -29,7 +29,7 @@ public class ContainerSender {
     public void send(Container container) {
 
         if(number.isMultiple50()){
-            log.info("현재 시간 : {}", LocalDateTime.now());
+            log.info("넘버링 : {}, 시간 : {}", container.getCurrentNumber(), LocalDateTime.now());
         }
 
         final Message<Container> message = MessageBuilder

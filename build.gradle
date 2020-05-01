@@ -25,6 +25,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 
     repositories {
         mavenCentral()
@@ -34,6 +35,7 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.kafka:spring-kafka'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -56,6 +58,8 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+// https://stackoverflow.com/questions/54134759/springboot-with-multi-project-gradle-main-class-name-has-not-been-configured
 
 project(':kafka-common'){
     dependencies {
