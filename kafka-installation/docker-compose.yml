@@ -20,13 +20,13 @@ services:
 
 # [kafka container 접속 이후 토픽 생성]
 # $ docker exec -it {container-name} /bin/sh
-# $ ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 2 --topic container-topic
+# $ ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 2 --topic {topic-name}
 
 # [kafka 토픽 리스트 조회]
 # $ ./bin/kafka-topics.sh --list --zookeeper zookeeper:2181
 # $ container-topic
 
-# [kafka 토픽 내 메시지 컨슘]
-# $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic container-topic --from-beginning
+# [kafka 토픽 내 메시지 조회]
+# $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic {topic-name} --from-beginning
 
 
