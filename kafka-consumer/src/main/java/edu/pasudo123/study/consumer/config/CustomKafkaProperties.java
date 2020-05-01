@@ -14,4 +14,6 @@ import java.util.List;
 public class CustomKafkaProperties {
     private String topic;
     private List<String> bootstrapServers;
+    private String groupId;
+    private String offset;
 }
