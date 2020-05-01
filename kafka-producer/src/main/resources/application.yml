@@ -1,0 +1,5 @@
+kafka:
+  producer:
+    topic: 'container-topic'
+    bootstrapServers:
+      - 'localhost:9092'
