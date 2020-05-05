@@ -34,6 +34,7 @@ public class CustomConsumerConfig {
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
+        // JsonDeserializer 를 Container 객체에 대해서 수행하고 있음을 명시.
         return new DefaultKafkaConsumerFactory<>(configProps, new StringDeserializer(), new JsonDeserializer<>(Container.class));
     }
 
@@ -41,6 +42,7 @@ public class CustomConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Container> kafkaListenerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Container> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(2);
         return factory;
     }
 }

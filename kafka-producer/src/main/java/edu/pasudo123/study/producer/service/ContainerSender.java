@@ -40,8 +40,38 @@ public class ContainerSender {
         kafkaTemplate.send(message);
     }
 
+    @Scheduled(fixedRate = 50L)
+    public void schedulingTask50(){
+        final LocalTime currentTime = LocalTime.now();
+
+        final Container container = Container.builder()
+                .currentNumber(number.getCurrentNumber())
+                .name(nameGenerator.getName())
+                .hh(currentTime.getHour())
+                .mm(currentTime.getMinute())
+                .ss(currentTime.getSecond())
+                .build();
+
+        send(container);
+    }
+
+    @Scheduled(fixedRate = 100L)
+    public void schedulingTask100(){
+        final LocalTime currentTime = LocalTime.now();
+
+        final Container container = Container.builder()
+                .currentNumber(number.getCurrentNumber())
+                .name(nameGenerator.getName())
+                .hh(currentTime.getHour())
+                .mm(currentTime.getMinute())
+                .ss(currentTime.getSecond())
+                .build();
+
+        send(container);
+    }
+
     @Scheduled(fixedRate = 300L)
-    public void schedulingTask(){
+    public void schedulingTask300(){
         final LocalTime currentTime = LocalTime.now();
 
         final Container container = Container.builder()
