@@ -10,4 +10,4 @@ kafka:
       - 'localhost:9092'
     groupId: 'container-group'
     offset: 'latest'
-    max-poll-records: 50
+    max-poll-records: 25

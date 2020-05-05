@@ -35,7 +35,7 @@ public class ContainerConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Container> containerMessageKafkaListenerContainerFactory(){
+    public ConcurrentKafkaListenerContainerFactory<String, Container> containerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Container> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

@@ -1,11 +1,12 @@
 package edu.pasudo123.study.common.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
 
     private Long currentNumber;

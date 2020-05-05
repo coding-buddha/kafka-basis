@@ -2,10 +2,8 @@ package edu.pasudo123.study.consumer.service;
 
 import edu.pasudo123.study.common.dto.Employee;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.KafkaListenerErrorHandler;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +14,18 @@ public class EmployeeReceiver {
 
     @KafkaListener(
             topics = "${kafka.consumer.employee-topic}",
-            containerFactory = "employeeMessageKafkaListenerContainerFactory"
+            containerFactory = "employeeContainerFactory"
     )
-    public void listen(List<Employee> employees) {
+    public void listen(@Payload List<Employee> employees) {
+        employees.forEach(employee -> {
+            log.info("==> Employee[{}] : {} ({}:{}:{})",
+                    employee.getCurrentNumber(),
+                    employee.getName(),
+                    employee.getHh(),
+                    employee.getMm(),
+                    employee.getSs());
+        });
+
         log.info("====> Employees Size : [{}]", employees.size());
     }
 }

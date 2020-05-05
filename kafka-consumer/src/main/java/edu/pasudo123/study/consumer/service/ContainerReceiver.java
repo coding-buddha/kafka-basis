@@ -12,7 +12,7 @@ public class ContainerReceiver {
 
     @KafkaListener(
             topics = "${kafka.consumer.container-topic}",
-            containerFactory = "containerMessageKafkaListenerContainerFactory"
+            containerFactory = "containerContainerFactory"
     )
     public void listen(@Payload Container container) {
 

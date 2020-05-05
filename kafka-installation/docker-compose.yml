@@ -20,6 +20,9 @@ services:
 
 # https://github.com/wurstmeister/kafka-docker/issues/150
 
+# [docker-compose.yml 실행]
+# $ docker-compose -f docker-compose.yml up -d
+
 # [kafka container 접속]
 # $ docker exec -it {container-name} /bin/sh
 
