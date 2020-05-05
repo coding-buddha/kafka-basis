@@ -14,9 +14,11 @@ services:
     ports:
       - "9092:9092"
     environment:
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
+# https://github.com/wurstmeister/kafka-docker/issues/150
 
 # [kafka container 접속]
 # $ docker exec -it {container-name} /bin/sh
@@ -34,6 +36,6 @@ services:
 # $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic {topic-name} --from-beginning
 
 # [kafka lag 조회]
-# $ ./bin/kafka-consumer.group.sh --bootstrap-server localhost:9092 --describe --group {group-name}
+# $ ./bin/kafka-consumer-group.sh --bootstrap-server localhost:9092 --describe --group {group-name}
 
 

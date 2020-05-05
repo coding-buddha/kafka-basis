@@ -1,6 +1,7 @@
 package edu.pasudo123.study.producer.service;
 
 import edu.pasudo123.study.common.dto.Container;
+import edu.pasudo123.study.common.dto.Employee;
 import edu.pasudo123.study.producer.config.CustomKafkaProperties;
 import edu.pasudo123.study.producer.pojo.AtomicNumber;
 import edu.pasudo123.study.producer.pojo.NameGenerator;
@@ -20,34 +21,34 @@ import java.time.LocalTime;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ContainerSender {
+public class EmployeeSender {
 
     private final NameGenerator nameGenerator;
     private final AtomicNumber number;
     private final CustomKafkaProperties customProps;
 
-    @Qualifier("containerKafkaTemplate")
-    private final KafkaTemplate<String, Container> kafkaTemplate;
+    @Qualifier("employeeKafkaTemplate")
+    private final KafkaTemplate<String, Employee> kafkaTemplate;
 
-    public void send(Container container) {
+    public void send(Employee employee) {
 
         if(number.isMultiple50()){
-            log.info("[Container] Numbering : {}, 시간 : {}", container.getCurrentNumber(), LocalDateTime.now());
+            log.info("[Employee] Numbering : {}, 시간 : {}", employee.getCurrentNumber(), LocalDateTime.now());
         }
 
-        final Message<Container> message = MessageBuilder
-                .withPayload(container)
-                .setHeader(KafkaHeaders.TOPIC, customProps.getContainerTopic())
+        final Message<Employee> message = MessageBuilder
+                .withPayload(employee)
+                .setHeader(KafkaHeaders.TOPIC, customProps.getEmployeeTopic())
                 .build();
 
         kafkaTemplate.send(message);
     }
 
-    @Scheduled(fixedRate = 3000L)
-        public void schedulingTask50(){
+    @Scheduled(fixedRate = 50L)
+    public void schedulingTask50(){
         final LocalTime currentTime = LocalTime.now();
 
-        final Container container = Container.builder()
+        final Employee employee = Employee.builder()
                 .currentNumber(number.getCurrentNumber())
                 .name(nameGenerator.getName())
                 .hh(currentTime.getHour())
@@ -55,6 +56,6 @@ public class ContainerSender {
                 .ss(currentTime.getSecond())
                 .build();
 
-        send(container);
+        send(employee);
     }
 }

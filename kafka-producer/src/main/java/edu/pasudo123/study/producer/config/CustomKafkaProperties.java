@@ -12,6 +12,7 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "kafka.producer")
 public class CustomKafkaProperties {
-    private String topic;
+    private String containerTopic;
+    private String employeeTopic;
     private List<String> bootstrapServers;
 }

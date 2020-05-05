@@ -1,6 +1,6 @@
 package edu.pasudo123.study.consumer.service;
 
-import edu.pasudo123.study.common.container.Container;
+import edu.pasudo123.study.common.dto.Container;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ContainerReceiver {
 
-    @KafkaListener(topics = "${kafka.consumer.topic}")
+    @KafkaListener(
+            topics = "${kafka.consumer.container-topic}",
+            containerFactory = "containerMessageKafkaListenerContainerFactory"
+    )
     public void listen(@Payload Container container) {
 
         log.info("==> Container[{}] : {} ({}:{}:{})",

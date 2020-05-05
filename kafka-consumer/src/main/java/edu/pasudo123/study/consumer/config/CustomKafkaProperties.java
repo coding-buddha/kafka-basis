@@ -16,4 +16,5 @@ public class CustomKafkaProperties {
     private List<String> bootstrapServers;
     private String groupId;
     private String offset;
+    private Integer maxPollRecords;
 }

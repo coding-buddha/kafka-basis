@@ -1,7 +1,7 @@
 package edu.pasudo123.study.producer.config;
 
 
-import edu.pasudo123.study.common.container.Container;
+import edu.pasudo123.study.common.dto.Container;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -17,12 +17,13 @@ import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-public class CustomProducerConfig {
+public class ContainerProducerConfig {
 
     private final CustomKafkaProperties customKafkaProperties;
 
+    @SuppressWarnings("Duplicates")
     @Bean
-    public ProducerFactory<String, Container> producerFactory() {
+    public ProducerFactory<String, Container> containerProducerFactory() {
         final Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, customKafkaProperties.getBootstrapServers());
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,10 +32,8 @@ public class CustomProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
-    @Bean
+    @Bean("containerKafkaTemplate")
     public KafkaTemplate<String, Container> kafkaTemplate(){
-        return new KafkaTemplate<>(producerFactory());
+        return new KafkaTemplate<>(containerProducerFactory());
     }
-
-
 }

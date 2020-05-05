@@ -4,6 +4,7 @@ server:
 
 kafka:
   producer:
-    topic: 'container-topic'
+    containerTopic: 'container-topic'
+    employeeTopic: 'employee-topic'
     bootstrapServers:
       - 'localhost:9092'
