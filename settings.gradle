@@ -4,7 +4,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'kafka-basis'
+rootProject.name = 'springboot-kafka-basis'
 
 include 'kafka-common'
 include 'kafka-consumer'

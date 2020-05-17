@@ -32,7 +32,7 @@ public class EmployeeConsumerConfig {
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
         // 컨슈머 측에서 poll() 단일호출하여 들고 올 수 있는 최대레코드 수 (디폴트 : 500)
-        /** max.poll.records 값을 50으로 설정해두었다. **/
+        /** max.poll.records 값을 25으로 설정해두었다. **/
         configProps.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, customKafkaProperties.getMaxPollRecords());
 
         return new DefaultKafkaConsumerFactory<>(configProps, new StringDeserializer(), new JsonDeserializer<>(Employee.class));
