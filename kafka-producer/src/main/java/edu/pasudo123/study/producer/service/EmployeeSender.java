@@ -44,7 +44,7 @@ public class EmployeeSender {
         kafkaTemplate.send(message);
     }
 
-    @Scheduled(fixedRate = 50L)
+    @Scheduled(fixedRate = 10L)
     public void schedulingTask50(){
         final LocalTime currentTime = LocalTime.now();
 

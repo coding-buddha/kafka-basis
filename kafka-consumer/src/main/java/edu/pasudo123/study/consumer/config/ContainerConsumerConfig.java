@@ -1,6 +1,7 @@
 package edu.pasudo123.study.consumer.config;
 
 import edu.pasudo123.study.common.dto.Container;
+import edu.pasudo123.study.consumer.props.CustomKafkaProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

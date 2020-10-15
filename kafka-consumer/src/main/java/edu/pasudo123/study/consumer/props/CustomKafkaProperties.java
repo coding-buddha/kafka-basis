@@ -1,4 +1,4 @@
-package edu.pasudo123.study.consumer.config;
+package edu.pasudo123.study.consumer.props;
 
 import lombok.Getter;
 import lombok.Setter;

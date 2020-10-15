@@ -31,7 +31,7 @@ public class ContainerSender {
 
     public void send(Container container) {
 
-        if(number.isMultiple50()){
+        if (number.isMultiple50()) {
             log.info("[Container] Numbering : {}, 시간 : {}", container.getCurrentNumber(), LocalDateTime.now());
         }
 
@@ -44,7 +44,7 @@ public class ContainerSender {
     }
 
     @Scheduled(fixedRate = 3000L)
-        public void schedulingTask50(){
+    public void schedulingTask50() {
         final LocalTime currentTime = LocalTime.now();
 
         final Container container = Container.builder()

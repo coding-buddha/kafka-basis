@@ -2,6 +2,7 @@ package edu.pasudo123.study.consumer.config;
 
 
 import edu.pasudo123.study.common.dto.Employee;
+import edu.pasudo123.study.consumer.props.CustomKafkaProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -42,7 +43,7 @@ public class EmployeeConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Employee> employeeContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Employee> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(employeeConsumerFactory());
-        factory.setBatchListener(true);
+        factory.setBatchListener(true); // max.poll.records = 25 설정
         return factory;
     }
 }
