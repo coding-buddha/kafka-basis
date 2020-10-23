@@ -16,8 +16,8 @@ public class EmployeeReceiver {
 
     @KafkaListener(
             id = "employee_listener",
-            topics = "${kafka.consumer.employee-topic}",
-            containerFactory = "employeeContainerFactory"
+            topics = "${kafka.consumer.employee.topic}",
+            containerFactory = "${kafka.consumer.employee.container-factory}"
     )
     public void listen(@Payload List<Employee> employees) {
         employees.forEach(employee -> {

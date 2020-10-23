@@ -4,10 +4,19 @@ server:
 
 kafka:
   consumer:
-    container-topic: 'container-topic'
-    employee-topic: 'employee-topic'
-    bootstrapServers:
-      - 'localhost:9092'
-    groupId: 'container-group'
-    offset: 'latest'
-    max-poll-records: 25
+    props:
+      bootstrapServers:
+        - 'localhost:9092'
+      groupId: 'springboot-consumer-group'
+      offset: 'latest'
+      max-poll-records: 25
+
+    # container message
+    container:
+      topic: 'container-topic'
+      container-factory: 'containerContainerFactory'
+
+    # employee message
+    employee:
+      topic: 'employee-topic'
+      container-factory: 'employeeContainerFactory'

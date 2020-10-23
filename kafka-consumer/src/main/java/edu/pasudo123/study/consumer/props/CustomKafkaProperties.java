@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "kafka.consumer")
+@ConfigurationProperties(prefix = "kafka.consumer.props")
 public class CustomKafkaProperties {
     private String topic;
     private List<String> bootstrapServers;

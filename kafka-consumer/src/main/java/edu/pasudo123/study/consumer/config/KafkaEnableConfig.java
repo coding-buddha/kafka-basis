@@ -15,17 +15,4 @@ import javax.annotation.PreDestroy;
 @Slf4j
 public class KafkaEnableConfig {
 
-    private final KafkaListenerEndpointRegistry registry;
-
-    @PreDestroy
-    public void destroy() {
-        log.info("pre-destroy");
-        registry.getAllListenerContainers().forEach(messageListenerContainer -> {
-            log.info("====================>");
-            log.info("listener id : {}", messageListenerContainer.getListenerId());
-            log.info("phase before : {}", messageListenerContainer.getPhase());
-            messageListenerContainer.stop();
-            log.info("phase after : {}", messageListenerContainer.getPhase());
-        });
-    }
 }

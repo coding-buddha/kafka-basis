@@ -14,8 +14,8 @@ public class ContainerReceiver {
 
     @KafkaListener(
             id = "container_listener",
-            topics = "${kafka.consumer.container-topic}",
-            containerFactory = "containerContainerFactory"
+            topics = "${kafka.consumer.container.topic}",
+            containerFactory = "${kafka.consumer.container.container-factory}"
     )
     public void listen(@Payload Container container) {
 
