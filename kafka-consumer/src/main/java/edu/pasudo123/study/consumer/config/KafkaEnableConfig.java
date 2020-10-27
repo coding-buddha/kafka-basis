@@ -15,4 +15,11 @@ import javax.annotation.PreDestroy;
 @Slf4j
 public class KafkaEnableConfig {
 
+    private final KafkaListenerEndpointRegistry registry;
+
+    @PreDestroy
+    public void preDestroy() {
+        registry.stop();
+        log.info("springboot bean pre-destroy KafkaListenerContainer stopped");
+    }
 }

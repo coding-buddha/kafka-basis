@@ -9,7 +9,7 @@ kafka:
         - 'localhost:9092'
       groupId: 'springboot-consumer-group'
       offset: 'latest'
-      max-poll-records: 25
+      max-poll-records: 10
 
     # container message
     container:

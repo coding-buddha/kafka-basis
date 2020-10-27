@@ -18,8 +18,6 @@ public class ContainerReceiver {
             containerFactory = "${kafka.consumer.container.container-factory}"
     )
     public void listen(@Payload Container container) {
-
-
         log.info("==> Container[{}] : {} ({}:{}:{})",
                 container.getCurrentNumber(),
                 container.getName(),

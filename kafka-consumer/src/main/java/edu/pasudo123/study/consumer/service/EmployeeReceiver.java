@@ -1,18 +1,22 @@
 package edu.pasudo123.study.consumer.service;
 
 import edu.pasudo123.study.common.dto.Employee;
+import edu.pasudo123.study.consumer.bean.CustomRetry;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class EmployeeReceiver {
+
+    private final CustomRetry retry;
 
     @KafkaListener(
             id = "employee_listener",
@@ -20,6 +24,7 @@ public class EmployeeReceiver {
             containerFactory = "${kafka.consumer.employee.container-factory}"
     )
     public void listen(@Payload List<Employee> employees) {
+        log.info("====> Employees Size : [{}]", employees.size());
         employees.forEach(employee -> {
             log.info("==> Employee[{}] : {} ({}:{}:{})",
                     employee.getCurrentNumber(),
@@ -27,8 +32,16 @@ public class EmployeeReceiver {
                     employee.getHh(),
                     employee.getMm(),
                     employee.getSs());
+
         });
 
-        log.info("====> Employees Size : [{}]", employees.size());
+        validate();
+    }
+
+    public void validate() {
+        if(!retry.isBatchRetry()) {
+//            retry.retrySuccess();
+//            throw new RuntimeException();
+        }
     }
 }

@@ -32,9 +32,7 @@ public class EmployeeSender {
 
     public void send(Employee employee) {
 
-        if(number.isMultiple50()){
-            log.info("[Employee] Numbering : {}, 시간 : {}", employee.getCurrentNumber(), LocalDateTime.now());
-        }
+        log.info("[Employee] Numbering : {}, 시간 : {}", employee.getCurrentNumber(), LocalDateTime.now());
 
         final Message<Employee> message = MessageBuilder
                 .withPayload(employee)
@@ -44,8 +42,8 @@ public class EmployeeSender {
         kafkaTemplate.send(message);
     }
 
-    @Scheduled(fixedRate = 500L)
-    public void schedulingTask50(){
+    @Scheduled(cron = "*/20 * * * * *")
+    public void schedulingTask(){
         final LocalTime currentTime = LocalTime.now();
 
         final Employee employee = Employee.builder()

@@ -11,10 +11,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.SeekToCurrentBatchErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.BackOff;
+import org.springframework.util.backoff.BackOffExecution;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.util.backoff.FixedBackOff.UNLIMITED_ATTEMPTS;
 
 @Configuration
 @RequiredArgsConstructor
@@ -43,7 +51,10 @@ public class EmployeeConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Employee> employeeContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Employee> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(employeeConsumerFactory());
-        factory.setBatchListener(true); // max.poll.records = 25 설정
+        factory.setBatchListener(true);                             // max.poll.records 개수만큼 목록을 획득한다.
+        SeekToCurrentBatchErrorHandler errorHandler = new SeekToCurrentBatchErrorHandler();
+//        errorHandler.setBackOff(new FixedBackOff(5L, 3));           // 50ms 간격으로 세번 시도
+//        factory.setBatchErrorHandler(errorHandler);                 // 등록하면 배치작업할 때 에러발생 시, 다시 해당 레코드를 읽는다.
         return factory;
     }
 }

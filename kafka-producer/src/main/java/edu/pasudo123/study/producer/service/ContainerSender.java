@@ -31,9 +31,7 @@ public class ContainerSender {
 
     public void send(Container container) {
 
-        if (number.isMultiple50()) {
-            log.info("[Container] Numbering : {}, 시간 : {}", container.getCurrentNumber(), LocalDateTime.now());
-        }
+        log.info("[Container] Numbering : {}, 시간 : {}", container.getCurrentNumber(), LocalDateTime.now());
 
         final Message<Container> message = MessageBuilder
                 .withPayload(container)
@@ -43,8 +41,8 @@ public class ContainerSender {
         kafkaTemplate.send(message);
     }
 
-    @Scheduled(fixedRate = 3000L)
-    public void schedulingTask50() {
+    @Scheduled(cron = "*/20 * * * * *")
+    public void schedulingTask() {
         final LocalTime currentTime = LocalTime.now();
 
         final Container container = Container.builder()
