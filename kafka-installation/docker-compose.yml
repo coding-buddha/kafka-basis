@@ -26,6 +26,7 @@ services:
 # [kafka container 접속]
 # $ docker exec -it {container-name} /bin/sh
 
+# *** opt/kafka/bin 접속
 # [kafka 컨테이너 접속 이후 /opt/kafka/bin 디렉토리 접근]
 
 # [토픽 생성]
