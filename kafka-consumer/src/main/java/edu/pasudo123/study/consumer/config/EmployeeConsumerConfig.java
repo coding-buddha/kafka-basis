@@ -52,9 +52,6 @@ public class EmployeeConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, Employee> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(employeeConsumerFactory());
         factory.setBatchListener(true);                             // max.poll.records 개수만큼 목록을 획득한다.
-        SeekToCurrentBatchErrorHandler errorHandler = new SeekToCurrentBatchErrorHandler();
-//        errorHandler.setBackOff(new FixedBackOff(5L, 3));           // 50ms 간격으로 세번 시도
-//        factory.setBatchErrorHandler(errorHandler);                 // 등록하면 배치작업할 때 에러발생 시, 다시 해당 레코드를 읽는다.
         return factory;
     }
 }

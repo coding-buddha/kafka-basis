@@ -5,5 +5,5 @@ import org.springframework.retry.annotation.EnableRetry;
 
 @Configuration
 @EnableRetry
-public class KafkaEnableRetryConfig {
+public class RetryEnableConfig {
 }

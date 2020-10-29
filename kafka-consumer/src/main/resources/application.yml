@@ -1,4 +1,8 @@
 
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
 server:
   port: 8091
 
@@ -15,6 +19,8 @@ kafka:
     container:
       topic: 'container-topic'
       container-factory: 'containerContainerFactory'
+      retry-topic: 'RETRY-TOPIC'
+      container-retry-factory: 'containerContainerRetryFactory'
 
     # employee message
     employee:

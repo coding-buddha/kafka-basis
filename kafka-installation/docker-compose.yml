@@ -36,6 +36,12 @@ services:
 # $ ./bin/kafka-topics.sh --list --zookeeper zookeeper:2181
 # $ container-topic
 
+# [kafka 토픽 정보 조회]
+# $ ./bin/kafka-topics.sh --describe --topic {topic-name} --zookeeper zookeeper:2181
+
+# [kafka 토픽 내 리텐션 수정] (ms 단위)
+# $ ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --alter --topic {topic-name} --config retention.ms=30000
+
 # [kafka 토픽 내 메시지 조회]
 # $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic {topic-name} --from-beginning
 

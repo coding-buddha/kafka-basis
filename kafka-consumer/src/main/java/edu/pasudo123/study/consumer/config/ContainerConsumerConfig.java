@@ -22,8 +22,8 @@ public class ContainerConsumerConfig {
     private final CustomKafkaProperties customKafkaProperties;
 
     @SuppressWarnings("Duplicates")
-    @Bean
-    public ConsumerFactory<String, Container> consumerFactory() {
+    @Bean(name = "containerConsumerFactory")
+    public ConsumerFactory<String, Container> containerConsumerFactory() {
         final Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, customKafkaProperties.getBootstrapServers());
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, customKafkaProperties.getGroupId());
@@ -38,7 +38,8 @@ public class ContainerConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Container> containerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Container> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(containerConsumerFactory());
+        factory.setConcurrency(2);
         return factory;
     }
 }

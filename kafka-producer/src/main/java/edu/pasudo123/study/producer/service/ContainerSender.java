@@ -36,6 +36,8 @@ public class ContainerSender {
         final Message<Container> message = MessageBuilder
                 .withPayload(container)
                 .setHeader(KafkaHeaders.TOPIC, customProps.getContainerTopic())
+                .setHeader(KafkaHeaders.MESSAGE_KEY, container.getName())
+                .setHeader(KafkaHeaders.RECEIVED_MESSAGE_KEY, container.getName())
                 .build();
 
         kafkaTemplate.send(message);

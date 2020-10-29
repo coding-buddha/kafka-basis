@@ -24,24 +24,14 @@ public class EmployeeReceiver {
             containerFactory = "${kafka.consumer.employee.container-factory}"
     )
     public void listen(@Payload List<Employee> employees) {
-        log.info("====> Employees Size : [{}]", employees.size());
+//        log.info("====> Employees Size : [{}]", employees.size());
         employees.forEach(employee -> {
-            log.info("==> Employee[{}] : {} ({}:{}:{})",
-                    employee.getCurrentNumber(),
-                    employee.getName(),
-                    employee.getHh(),
-                    employee.getMm(),
-                    employee.getSs());
-
+//            log.info("==> Employee[{}] : {} ({}:{}:{})",
+//                    employee.getCurrentNumber(),
+//                    employee.getName(),
+//                    employee.getHh(),
+//                    employee.getMm(),
+//                    employee.getSs());
         });
-
-        validate();
-    }
-
-    public void validate() {
-        if(!retry.isBatchRetry()) {
-//            retry.retrySuccess();
-//            throw new RuntimeException();
-        }
     }
 }

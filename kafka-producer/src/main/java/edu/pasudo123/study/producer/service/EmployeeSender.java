@@ -37,6 +37,8 @@ public class EmployeeSender {
         final Message<Employee> message = MessageBuilder
                 .withPayload(employee)
                 .setHeader(KafkaHeaders.TOPIC, customProps.getEmployeeTopic())
+                .setHeader(KafkaHeaders.MESSAGE_KEY, employee.getName())
+                .setHeader(KafkaHeaders.RECEIVED_MESSAGE_KEY, employee.getName())
                 .build();
 
         kafkaTemplate.send(message);
