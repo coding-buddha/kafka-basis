@@ -10,7 +10,7 @@ kafka:
   consumer:
     props:
       bootstrapServers:
-        - 'localhost:9092'
+        - 'localhost:19092'
       groupId: 'springboot-consumer-group'
       offset: 'latest'
       max-poll-records: 10

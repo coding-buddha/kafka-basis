@@ -44,18 +44,18 @@ public class EmployeeSender {
         kafkaTemplate.send(message);
     }
 
-    @Scheduled(cron = "*/20 * * * * *")
-    public void schedulingTask(){
-        final LocalTime currentTime = LocalTime.now();
-
-        final Employee employee = Employee.builder()
-                .currentNumber(number.getCurrentNumber())
-                .name(nameGenerator.getName())
-                .hh(currentTime.getHour())
-                .mm(currentTime.getMinute())
-                .ss(currentTime.getSecond())
-                .build();
-
-        send(employee);
-    }
+//    @Scheduled(cron = "*/20 * * * * *")
+//    public void schedulingTask(){
+//        final LocalTime currentTime = LocalTime.now();
+//
+//        final Employee employee = Employee.builder()
+//                .currentNumber(number.getCurrentNumber())
+//                .name(nameGenerator.getName())
+//                .hh(currentTime.getHour())
+//                .mm(currentTime.getMinute())
+//                .ss(currentTime.getSecond())
+//                .build();
+//
+//        send(employee);
+//    }
 }

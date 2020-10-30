@@ -3,12 +3,10 @@ package edu.pasudo123.study.consumer.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pasudo123.study.common.dto.Container;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -53,10 +51,14 @@ public class ContainerReceiver {
                     container.getMm(),
                     container.getSs());
 
+            // 2 의 배수인 경우 에러 발생.
             if (container.getCurrentNumber() % 2 == 0) {
-                throw new RuntimeException("짝수 번호에서만 에러발생");
+                throw new RuntimeException("의도적 에러발생");
             }
-        } catch (Exception e) {
+
+//            ack.acknowledge();
+
+        } catch (RuntimeException e) {
             // exception 발생 시, retry 할 수 있도록 한다.
             // TOPIC_NAME + GROUP_ID + RETRY
             log.error("==> retry 를 수행할 수 있도록 한다.");
@@ -73,7 +75,7 @@ public class ContainerReceiver {
             }
 
             // error exception 시 재시도 토픽에 데이터를 삽입한다.
-            // 리텐션 기간 설정, 파티션 설정, 토픽 설정
+            // 리텐션 기간 설정, 파티션 설정, 토픽 설정 확인 필요.
             final Message<String> message = MessageBuilder
                     .withPayload(payload)
                     .setHeader(KafkaHeaders.TOPIC, retryTopic)

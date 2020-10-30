@@ -11,18 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
-import org.springframework.kafka.listener.SeekToCurrentBatchErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.util.backoff.BackOff;
-import org.springframework.util.backoff.BackOffExecution;
-import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.util.backoff.FixedBackOff.UNLIMITED_ATTEMPTS;
 
 @Configuration
 @RequiredArgsConstructor
