@@ -30,8 +30,8 @@ public class ContainerRetryReceiver {
 
         // 4 의 배수인 경웨 에러를 발생시킨다.
         // 따로 catch 문을 잡지 않아야 retry 가 가능하다.
-//        if (container.getCurrentNumber() % 4 == 0) {
-//            throw new RuntimeException("의도적 에러발생");
-//        }
+        if (container.getCurrentNumber() % 4 == 0) {
+            throw new RuntimeException("의도적 에러발생");
+        }
     }
 }

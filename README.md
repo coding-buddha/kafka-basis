@@ -3,6 +3,7 @@
 
 ## Blog 정리 글
 * [[Message-Queue] Spring Kafka 작성해보기](https://pasudo123.tistory.com/389)
+* [[kafka] kafka consumer 옵션 살펴보기](https://pasudo123.tistory.com/435)
 
 ## reference
 * https://docs.spring.io/spring-kafka/reference/html/

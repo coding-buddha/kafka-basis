@@ -1,35 +1,31 @@
 package edu.pasudo123.study.consumer.retry;
 
 import edu.pasudo123.study.common.dto.Container;
+import edu.pasudo123.study.consumer.recovery.FailedMessageRecoverService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
 import java.util.Collections;
-import java.util.Optional;
-
-import static org.springframework.kafka.listener.adapter.RetryingMessageListenerAdapter.CONTEXT_RECORD;
 
 @Slf4j
 @Configuration
 public class RetryConsumerConfig {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
     private final ConsumerFactory<String, Container> containerConsumerFactory;
+    private final FailedMessageRecoverService failedMessageRecoverService;
 
-    public RetryConsumerConfig(KafkaTemplate<String, String> kafkaTemplate,
-                               @Qualifier("containerConsumerFactory") ConsumerFactory<String, Container> containerConsumerFactory) {
-        this.kafkaTemplate = kafkaTemplate;
+    public RetryConsumerConfig(@Qualifier("containerConsumerFactory") ConsumerFactory<String, Container> containerConsumerFactory,
+                               FailedMessageRecoverService failedMessageRecoverService) {
         this.containerConsumerFactory = containerConsumerFactory;
+        this.failedMessageRecoverService = failedMessageRecoverService;
     }
 
     /**
@@ -45,16 +41,7 @@ public class RetryConsumerConfig {
          * retryTemplate 를 등록하고, retry 가 다 소모되면 이후에 callback 을 수행한다.
          */
         factory.setRetryTemplate(retryTemplate());
-        factory.setRecoveryCallback(retryContext -> {
-
-            ConsumerRecord record = (ConsumerRecord) retryContext.getAttribute(CONTEXT_RECORD);
-            log.info(":: [recovery] [recovery] [recovery] ::");
-            log.info(":: recovery (1) >>>>> {}", retryContext);
-            log.info(":: recovery (2) >>>>> {}", record);
-            log.info(":: recovery (3) >>>>> {}", record.value());
-
-            return Optional.empty();
-        });
+        factory.setRecoveryCallback(failedMessageRecoverService::recovery);
 
         return factory;
     }
