@@ -4,19 +4,31 @@ version: '3'
 
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: 'bitnami/zookeeper:latest'
     container_name: zookeeper
     ports:
-      - "2181:2181"
+      - "12181:12181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
-    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    image: 'bitnami/kafka:latest'
     container_name: kafka
     ports:
-      - "9092:9092"
+      - "19092:19092"
     environment:
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:19092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:19092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+#      - KAFKA_DELETE_TOPIC_ENABLE: "true"
+#      - KAFKA_ADVERTISED_HOST_NAME: kafka
+#      - KAFKA_LISTENERS: localhost:19092
+#      - KAFKA_PORT: 9092
+#      - KAFKA_ZOOKEEPER_CONNECT: zookeeper:12181
 
 # https://github.com/wurstmeister/kafka-docker/issues/150
 
@@ -26,7 +38,8 @@ services:
 # [kafka container 접속]
 # $ docker exec -it {container-name} /bin/sh
 
-# *** opt/kafka/bin 접속
+# *** opt/kafka/bin 접속 또는
+# *** opt/bitnami/kafka/bin 접속
 # [kafka 컨테이너 접속 이후 /opt/kafka/bin 디렉토리 접근]
 
 # [토픽 생성]
@@ -41,9 +54,15 @@ services:
 
 # [kafka 토픽 내 리텐션 수정] (ms 단위)
 # $ ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --alter --topic {topic-name} --config retention.ms=30000
+# $ kafka-topics.sh --zookeeper zookeeper:2181 --alter --topic RETRY-TOPIC --config retention.ms=30000
+# $ kafka-configs.sh --alter --zookeeper zookeeper:2181 --entity-type topics --entity-name RETRY-TOPIC --add-config retention.ms=30000
+
+# [특정 브로커를 선정 및 리텐션 수정] (ms 단위)
+# $ kafka-configs.sh --alter --bootstrap-server localhost:19092 zookeeper:2181 --entity-type topics --entity-name RETRY-TOPIC --add-config retention.ms=30000
 
 # [kafka 토픽 내 메시지 조회]
 # $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic {topic-name} --from-beginning
+# $ kafka-console-consumer.sh --bootstrap-server localhost:19092 --topic RETRY-TOPIC --from-beginning
 
 # [kafka lag 조회]
 # $ ./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group {group-name}
