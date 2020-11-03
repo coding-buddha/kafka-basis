@@ -1,5 +1,14 @@
 
+
 spring:
+  logging:
+    applicationLogDirectory: failed
+    applicationLogBackupDirectory: failed/backup
+
+---
+spring:
+  profiles:
+    active: dev
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 

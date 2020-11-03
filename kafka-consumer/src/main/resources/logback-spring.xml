@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- ================= springboot 에서 제공하는 defaults.xml 과 console-appender.xml 을 상속 ================= -->
+    <!-- <include resource="org/springframework/boot/logging/logback/file-appender.xml" /> -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />        <!-- CONSOLE -->
+
+
+    <!-- ================= yml 파일 설정 관련 : source 가 yml 파일 경로 ================= -->
+    <springProperty name="logDirectory" source="spring.logging.applicationLogDirectory" defaultValue=""/>
+    <springProperty name="logBackupDirectory" source="spring.logging.applicationLogBackupDirectory" defaultValue=""/>
+
+    <!-- Recovery 클래스 전용 Appender -->
+    <appender name="basicFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDirectory}/kafka-basis.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %level %logger{36} : %msg%n%ex{full, DISPLAY_EX_EVAL}</pattern>
+        </encoder>
+
+        <!-- 날짜 별로 로그 기록 및 지정 일수 지날 시 삭제 수행 -->s
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logBackupDirectory}/kafka-basis.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 기본 로깅 설정 -->
+    <root level="INFO">
+        <springProfile name="dev">
+            <appender-ref ref="basicFileAppender" />
+            <appender-ref ref="CONSOLE" />
+        </springProfile>
+    </root>
+
+    <!--  ========================================================================================================== -->
+    <!-- Recovery 클래스 전용 Appender -->
+    <appender name="customFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDirectory}/kafka-recovery.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %level %logger{36} : %msg%n%ex{full, DISPLAY_EX_EVAL}</pattern>
+        </encoder>
+
+        <!-- 날짜 별로 로그 기록 및 지정 일수 지날 시 삭제 수행 -->s
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logBackupDirectory}/kafka-recovery.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+    <!-- com.zum.playit.batch.kafka.handler.RetryFailedMessageLogger 클래스에만 로그를 남긴다.  -->
+    <springProfile name="dev">
+        <logger name="edu.pasudo123.study.consumer.recovery.FailedMessageRecoverService">
+            <appender-ref ref="customFileAppender" />
+            <level value="INFO" />
+        </logger>
+    </springProfile>
+
+</configuration>

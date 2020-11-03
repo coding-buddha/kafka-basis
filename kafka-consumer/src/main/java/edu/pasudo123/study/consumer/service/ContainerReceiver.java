@@ -40,8 +40,6 @@ public class ContainerReceiver {
                        @Header(KafkaHeaders.OFFSET) String offset) {
 
         log.info("=========================================");
-        log.info("=> topic : {}", topic);
-        log.info("=> offset : {}", offset);
 
         try {
             log.info("==> Container[{}] : {} ({}:{}:{})",
@@ -55,9 +53,6 @@ public class ContainerReceiver {
             if (container.getCurrentNumber() % 2 == 0) {
                 throw new RuntimeException("의도적 에러발생");
             }
-
-//            ack.acknowledge();
-
         } catch (RuntimeException e) {
             // exception 발생 시, retry 할 수 있도록 한다.
             // TOPIC_NAME + GROUP_ID + RETRY
