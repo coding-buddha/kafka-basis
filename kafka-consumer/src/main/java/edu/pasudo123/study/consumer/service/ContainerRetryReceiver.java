@@ -24,7 +24,7 @@ public class ContainerRetryReceiver {
                       @Header(KafkaHeaders.OFFSET) String offset) {
         log.info("");
         log.info(">>>> [retry] [retry] [retry] [retry] [retry] <<<<");
-        log.info("topic : {}", topic);
+        log.info("offset : {}", offset);
         log.info("container : {}", container);
 
         // 4 의 배수인 경웨 에러를 발생시킨다.

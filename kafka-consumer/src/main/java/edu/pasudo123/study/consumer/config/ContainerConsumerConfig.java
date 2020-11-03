@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
@@ -39,7 +41,16 @@ public class ContainerConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Container> containerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, Container> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(containerConsumerFactory());
-        factory.setConcurrency(2);
+
+        // default 은 false 이다. :  true 이면 해당 레코드에서 문제 발생 시 해당레코드를 건너뛴다.
+        // factory.getContainerProperties().setAckOnError(false);
+
+        // 직접 ack 를 할 것인지 여부를 결정한다.
+        // 그렇지 않으면, AcknowledgingMessageListener 를 사용한다. :: AckMode.MANUAL
+        // throw 시 계속 에러 발생함.
+        // factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.RECORD);
+        // factory.setErrorHandler(new SeekToCurrentErrorHandler());
+
         return factory;
     }
 }

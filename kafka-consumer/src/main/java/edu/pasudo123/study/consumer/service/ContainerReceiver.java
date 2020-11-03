@@ -39,9 +39,10 @@ public class ContainerReceiver {
                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                        @Header(KafkaHeaders.OFFSET) String offset) {
 
-        log.info("=========================================");
 
-        try {
+//        try {
+            log.info("=========================================");
+            log.info("==> offset : {}", offset);
             log.info("==> Container[{}] : {} ({}:{}:{})",
                     container.getCurrentNumber(),
                     container.getName(),
@@ -53,30 +54,30 @@ public class ContainerReceiver {
             if (container.getCurrentNumber() % 2 == 0) {
                 throw new RuntimeException("의도적 에러발생");
             }
-        } catch (RuntimeException e) {
-            // exception 발생 시, retry 할 수 있도록 한다.
-            // TOPIC_NAME + GROUP_ID + RETRY
-            log.error("==> retry 를 수행할 수 있도록 한다.");
-            log.error("==> error : {}", e.getMessage());
-
-            String payload = "";
-
-            // json 으로 한 번 변환 이후에 작업을 수행.
-            try {
-                payload = mapper.writeValueAsString(container);
-            } catch (JsonProcessingException jsonProcessingException) {
-                log.error("Json processing error : {}", container.toString());
-                return;
-            }
-
-            // error exception 시 재시도 토픽에 데이터를 삽입한다.
-            // 리텐션 기간 설정, 파티션 설정, 토픽 설정 확인 필요.
-            final Message<String> message = MessageBuilder
-                    .withPayload(payload)
-                    .setHeader(KafkaHeaders.TOPIC, retryTopic)
-                    .build();
-
-            kafkaTemplate.send(message);
-        }
+//        } catch (RuntimeException e) {
+//            // exception 발생 시, retry 할 수 있도록 한다.
+//            // TOPIC_NAME + GROUP_ID + RETRY
+//            log.error("==> retry 를 수행할 수 있도록 한다.");
+//            log.error("==> error : {}", e.getMessage());
+//
+//            String payload = "";
+//
+//            // json 으로 한 번 변환 이후에 작업을 수행.
+//            try {
+//                payload = mapper.writeValueAsString(container);
+//            } catch (JsonProcessingException jsonProcessingException) {
+//                log.error("Json processing error : {}", container.toString());
+//                return;
+//            }
+//
+//            // error exception 시 재시도 토픽에 데이터를 삽입한다.
+//            // 리텐션 기간 설정, 파티션 설정, 토픽 설정 확인 필요.
+//            final Message<String> message = MessageBuilder
+//                    .withPayload(payload)
+//                    .setHeader(KafkaHeaders.TOPIC, retryTopic)
+//                    .build();
+//
+//            kafkaTemplate.send(message);
+//        }
     }
 }

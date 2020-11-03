@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
@@ -37,6 +38,7 @@ public class RetryConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, Container> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(containerConsumerFactory);
         factory.setErrorHandler(new SeekToCurrentErrorHandler());
+
         /**
          * retryTemplate 를 등록하고, retry 가 다 소모되면 이후에 callback 을 수행한다.
          */
