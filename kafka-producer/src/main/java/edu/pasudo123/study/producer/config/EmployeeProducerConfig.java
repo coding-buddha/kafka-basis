@@ -1,6 +1,5 @@
 package edu.pasudo123.study.producer.config;
 
-import edu.pasudo123.study.common.dto.Container;
 import edu.pasudo123.study.common.dto.Employee;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;

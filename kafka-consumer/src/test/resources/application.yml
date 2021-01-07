@@ -1,0 +1,30 @@
+---
+spring:
+  profiles:
+    active: test
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+server:
+  port: 8091
+
+kafka:
+  consumer:
+    props:
+      bootstrapServers:
+        - 'localhost:19092'
+      groupId: 'springboot-consumer-group'
+      offset: 'latest'
+      max-poll-records: 10
+
+    # container message
+    container:
+      topic: 'container-topic'
+      container-factory: 'containerContainerFactory'
+      retry-topic: 'RETRY-TOPIC'
+      container-retry-factory: 'containerContainerRetryFactory'
+
+    # employee message
+    employee:
+      topic: 'employee-topic'
+      container-factory: 'employeeContainerFactory'

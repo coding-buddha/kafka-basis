@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 기본 로깅 설정 -->
+    <root level="INFO">
+        <springProfile name="dev">
+            <appender-ref ref="basicFileAppender" />
+            <appender-ref ref="CONSOLE" />
+        </springProfile>
+    </root>
+</configuration>
