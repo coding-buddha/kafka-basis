@@ -52,7 +52,7 @@
         </rollingPolicy>
     </appender>
 
-    <!-- com.zum.playit.batch.kafka.handler.RetryFailedMessageLogger 클래스에만 로그를 남긴다.  -->
+    <!-- RetryFailedMessageLogger 클래스에만 로그를 남긴다.  -->
     <springProfile name="dev">
         <logger name="edu.pasudo123.study.consumer.recovery.FailedMessageRecoverService">
             <appender-ref ref="customFileAppender" />
